@@ -18,4 +18,4 @@ jobs:
       - name: Install OpenVINO
         uses: ./
       - name: Check installation
-        run: source /opt/intel/openvino_2021/bin/setupvars.sh
+        run: source /opt/intel/openvino_2022/setupvars.sh
