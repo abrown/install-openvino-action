@@ -21,7 +21,6 @@ version_year="${version_parts[0]}"
 eval $(source /etc/os-release; echo os_name="$ID"; echo os_version="$VERSION_ID"; echo os_version_codename="$VERSION_CODENAME")
 IFS='.' read -ra os_version_parts <<< "$os_version"
 os_version_year="${os_version_parts[0]}"
-
 # Determine the directory of this script. E.g.:
 #  script_dir=/some/directory
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -40,8 +39,13 @@ sudo apt update
 sudo apt install -y openvino-$version && exit
 
 # If apt is not available, download the latest version of OpenVino, untar it, and run setupvars.sh
-echo "Trying alternative download location."
-FILENAME=l_openvino_toolkit_ubuntu20_2022.2.0.7713.af16ea1d79a_x86_64
+if [ "$os_version_year" -ne 18 ] && [ "$os_version_year" -ne 20 ]; then
+    echo "Unsupported version of Ubuntu, exiting"
+    exit
+fi
+
+FILENAME=l_openvino_toolkit_ubuntu${os_version_year}_2022.2.0.7713.af16ea1d79a_x86_64
+echo "Trying alternative download, using ${FILENAME}"
 wget -q -nc --no-check-certificate https://storage.openvinotoolkit.org/repositories/openvino/packages/2022.2/linux/${FILENAME}.tgz
 tar -zxf ${FILENAME}.tgz
 sudo mkdir -p /opt/intel
