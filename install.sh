@@ -1,11 +1,49 @@
 #!/bin/bash
 
 set -e
-# Download the latest version of OpenVino, untar it, and run setupvars.sh
+
+# Determine the OpenVINO version to install from the first parameter. Also, split out the parts of
+# this version; `${version_parts[0]}` should contain the year. E.g.:
+#  version=2021.4.752
+#  version_year=2021
+if [ "$#" -ne 1 ]; then
+    version="2022.1.0"
+else
+    version="$1"
+fi
+IFS='.' read -ra version_parts <<< "$version"
+version_year="${version_parts[0]}"
+
+# Determine the OS name and version (Linux-specific for now). E.g.:
+#  os_name=ubuntu
+#  os_version=20.04
+#  os_version_year=20
+eval $(source /etc/os-release; echo os_name="$ID"; echo os_version="$VERSION_ID"; echo os_version_codename="$VERSION_CODENAME")
+IFS='.' read -ra os_version_parts <<< "$os_version"
+os_version_year="${os_version_parts[0]}"
+
+# Determine the directory of this script. E.g.:
+#  script_dir=/some/directory
+scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# Retrieve the OpenVINO checksum.
+curl -sSL https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB > $scriptdir/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+echo "818253460e4e4a045cc92ddff13fbc94 $scriptdir/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB" > $scriptdir/CHECKSUM
+md5sum --check $scriptdir/CHECKSUM
+
+# Add the OpenVINO repository (DEB-specific for now).
+sudo apt-key add $scriptdir/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+echo "deb https://apt.repos.intel.com/openvino/$version_year $os_version_codename main" | sudo tee /etc/apt/sources.list.d/intel-openvino-$version_year.list
+sudo apt update
+
+# Install the OpenVINO package and exit if successful.
+sudo apt install -y openvino-$version && exit
+
+# If apt is not available, download the latest version of OpenVino, untar it, and run setupvars.sh
+echo "Trying alternative download location."
 FILENAME=l_openvino_toolkit_ubuntu20_2022.2.0.7713.af16ea1d79a_x86_64
-wget -q --no-check-certificate https://storage.openvinotoolkit.org/repositories/openvino/packages/2022.2/linux/${FILENAME}.tgz
+wget -q -nc --no-check-certificate https://storage.openvinotoolkit.org/repositories/openvino/packages/2022.2/linux/${FILENAME}.tgz
 tar -zxf ${FILENAME}.tgz
 sudo mkdir -p /opt/intel
-sudo mv ${FILENAME} /opt/intel/openvino_2022
-sudo ln -s /opt/intel/openvino_2022/ /opt/intel/openvino
-source /opt/intel/openvino/setupvars.sh
+sudo mv -n ${FILENAME} /opt/intel/openvino_2022
+sudo ln -sfn /opt/intel/openvino_2022/ /opt/intel/openvino
