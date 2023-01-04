@@ -7,7 +7,7 @@ set -e
 #  version=2021.4.752
 #  version_year=2021
 if [ "$#" -ne 1 ]; then
-    version="2022.1.0"
+    version="2022.3.0"
 else
     version="$1"
 fi
