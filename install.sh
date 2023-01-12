@@ -7,7 +7,7 @@ set -e
 #  version=2021.4.752
 #  version_year=2021
 if [ "$#" -ne 1 ]; then
-    version="2022.1.0"
+    version="2022.3.0"
 else
     version="$1"
 fi
@@ -30,6 +30,12 @@ scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 curl -sSL https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB > $scriptdir/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
 echo "818253460e4e4a045cc92ddff13fbc94 $scriptdir/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB" > $scriptdir/CHECKSUM
 md5sum --check $scriptdir/CHECKSUM
+
+# Downgrade the OS codename; OpenVINO will not publish a `jammy` (Ubuntu 22.04) release
+# for OpenVINO 2022.3 so we must use the `focal` (Ubuntu 20.04).
+if [ "$os_version_codename" == "jammy" ]; then
+    os_version_codename=focal
+fi
 
 # Add the OpenVINO repository (DEB-specific for now).
 sudo apt-key add $scriptdir/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
