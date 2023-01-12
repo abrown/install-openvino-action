@@ -19,4 +19,4 @@ jobs:
       - name: Install OpenVINO
         uses: ./
       - name: Check installation
-        run: source /opt/intel/openvino_2022/setupvars.sh
+        run: ldconfig -p | grep openvino
