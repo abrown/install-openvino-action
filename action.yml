@@ -26,5 +26,7 @@ runs:
   steps:
   - run: npm install
     shell: bash
+  - run: env
+    shell: bash
   - run: node main.js
     shell: bash
