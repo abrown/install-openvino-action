@@ -53,7 +53,7 @@ async function run() {
     } else {
         // Download and decompress the OpenVINO archive from https://storage.openvinotoolkit.org.
         const filetreeJson = await filetree.readCached('filetree.json');
-        const version_stripped = x.replace(/\.0$/, ''); // The filetree strips off the `.0`.
+        const version_stripped = version.replace(/\.0$/, ''); // The filetree strips off the `.0`.
         const url = filetree.buildUrl(filetreeJson, version_stripped, os, release, arch);
         core.info(`url: ${url}`);
         let downloadedFile = await download.downloadCached(url);
