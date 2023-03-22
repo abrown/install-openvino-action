@@ -8,8 +8,54 @@ on:
   workflow_dispatch:
 
 jobs:
-  check:
-    name: Check action
+  test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: npm install
+      - name: Run unit tests
+        run: npm test
+
+  archives:
+    name: Check downloading archives
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, ubuntu-22.04, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install OpenVINO
+        uses: ./
+      - name: List files
+        run: find $OPENVINO_INSTALL_DIR
+        shell: bash
+      - name: Check installation
+        run: $OPENVINO_INSTALL_DIR/setupvars.sh
+        if: matrix.os != 'windows-latest'
+      - name: Check installation
+        run: ${{ env.OPENVINO_INSTALL_DIR }}\setupvars.bat
+        if: matrix.os == 'windows-latest'
+
+
+  old:
+    name: Spot-check old archive
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install OpenVINO
+        uses: ./
+        with:
+          version: 2022.2
+          release: rhel8
+      - name: List files
+        run: find $OPENVINO_INSTALL_DIR
+      - name: Check installation
+        run: $OPENVINO_INSTALL_DIR/setupvars.sh
+
+  apt:
+    name: Check installing APT packages
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -18,5 +64,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install OpenVINO
         uses: ./
+        with:
+          apt: true
+      - name: List files
+        run: |
+          apt-cache depends openvino-2022.3.0 --installed
+          dpkg --listfiles libopenvino-2022.3.0
+        shell: bash
       - name: Check installation
         run: ldconfig -p | grep openvino
