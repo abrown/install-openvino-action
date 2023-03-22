@@ -20,7 +20,7 @@ const path = require('node:path');
  */
 async function run() {
     // Read in the inputs; `core.getInput` reads environment variables like `INPUT_FILETREE`.
-    const version = core.getInput('version') || '2022.3';
+    const version = core.getInput('version') || '2022.3.0';
     core.info(`version: ${version}`);
     const env = runner.readGitHubEnvironment();
     const arch = core.getInput('arch') || env.arch;
@@ -42,7 +42,12 @@ async function run() {
         if (os !== 'linux') {
             core.warning('retrieving OpenVINO with APT is unlikely to work on OSes other than Linux.');
         }
-        bash('src/apt.sh');
+        if (linuxRelease.codename === 'jammy') {
+            core.warning('downgrading jammy packages to focal; OpenVINO has no jammy packages but focal should work');
+            linuxRelease.codename = 'focal';
+        }
+        const env = { version, version_year: version.split('.')[0], os_codename: linuxRelease.codename };
+        bash('src/apt.sh', env);
         // TODO cache these APT packages: https://cloudaffaire.com/faq/caching-apt-packages-in-github-actions-workflow/
     } else {
         // Download and decompress the OpenVINO archive from https://storage.openvinotoolkit.org.
@@ -63,9 +68,9 @@ function decompress(path) {
     child_process.execFileSync('tar', args, { stdio: 'inherit' });
 }
 
-function bash(scriptPath) {
+function bash(scriptPath, env) {
     core.info(`running: bash ${scriptPath}`);
-    child_process.execFileSync('bash', [scriptPath], { stdio: 'inherit' });
+    child_process.execFileSync('bash', [scriptPath], { stdio: 'inherit', env });
 }
 
 function logError(e) {
