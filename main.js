@@ -30,6 +30,11 @@ async function run() {
     let linuxRelease;
     if (os === 'linux') {
         linuxRelease = await runner.readLinuxRelease(fs.createReadStream('/etc/os-release'));
+        if (linuxRelease.codename === 'jammy') {
+            core.warning('downgrading jammy packages to focal; OpenVINO has no jammy packages but focal should work');
+            linuxRelease.codename = 'focal';
+            linuxRelease.version = '20';
+        }
     }
     const release = core.getInput('release') || `${linuxRelease.id}${linuxRelease.version}`;
     core.info(`release: ${release}`);
@@ -42,10 +47,6 @@ async function run() {
         // we expect this to only run on Linux machines.
         if (os !== 'linux') {
             core.warning('retrieving OpenVINO with APT is unlikely to work on OSes other than Linux.');
-        }
-        if (linuxRelease.codename === 'jammy') {
-            core.warning('downgrading jammy packages to focal; OpenVINO has no jammy packages but focal should work');
-            linuxRelease.codename = 'focal';
         }
         const env = { version, version_year: version.split('.')[0], os_codename: linuxRelease.codename };
         bash('src/apt.sh', env);
