@@ -34,6 +34,7 @@ async function run() {
     const release = core.getInput('release') || `${linuxRelease.id}${linuxRelease.version}`;
     core.info(`release: ${release}`);
     const useApt = core.getInput('apt');
+    core.info(`apt: ${useApt}`);
 
     // Choose between an APT installation or an extracted archive installation.
     if (useApt) {
@@ -52,7 +53,8 @@ async function run() {
     } else {
         // Download and decompress the OpenVINO archive from https://storage.openvinotoolkit.org.
         const filetreeJson = await filetree.readCached('filetree.json');
-        const url = filetree.buildUrl(filetreeJson, version, os, release, arch);
+        const version_stripped = x.replace(/\.0$/, ''); // The filetree strips off the `.0`.
+        const url = filetree.buildUrl(filetreeJson, version_stripped, os, release, arch);
         core.info(`url: ${url}`);
         let downloadedFile = await download.downloadCached(url);
         decompress(downloadedFile);
