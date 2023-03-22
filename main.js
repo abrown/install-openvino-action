@@ -76,8 +76,9 @@ function decompress(path) {
         cmd = 'tar';
         args = ['-xf', path];
     } else if (ext === 'zip') {
-        cmd = 'gzip';
-        args = ['-d', path];
+        // Assume that .zip files are only used on Windows.
+        cmd = '7z';
+        args = ['x', path];
     } else {
         throw new Error(`unrecognized extension to decompress: ${path}`)
     }
