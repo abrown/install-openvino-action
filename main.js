@@ -27,7 +27,7 @@ async function run() {
     core.info(`arch: ${arch}`);
     const os = core.getInput('os') || env.os;
     core.info(`os: ${os}`);
-    let linuxRelease;
+    let linuxRelease, linuxReleaseSlug;
     if (os === 'linux') {
         linuxRelease = await runner.readLinuxRelease(fs.createReadStream('/etc/os-release'));
         if (linuxRelease.codename === 'jammy') {
@@ -35,8 +35,9 @@ async function run() {
             linuxRelease.codename = 'focal';
             linuxRelease.version = '20';
         }
+        linuxReleaseSlug = `${linuxRelease.id}${linuxRelease.version}`;
     }
-    const release = core.getInput('release') || `${linuxRelease.id}${linuxRelease.version}`;
+    const release = core.getInput('release') || linuxReleaseSlug;
     core.info(`release: ${release}`);
     const useApt = core.getBooleanInput('apt');
     core.info(`apt: ${useApt}`);
