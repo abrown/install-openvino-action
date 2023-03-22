@@ -19,7 +19,7 @@ const fs = require('node:fs');
  */
 async function run() {
     // Read in the inputs; `core.getInput` reads environment variables like `INPUT_FILETREE`.
-    const version = core.getInput('version');
+    const version = core.getInput('version') || '2022.3';
     core.info(`version: ${version}`);
     const env = runner.readGitHubEnvironment();
     const arch = core.getInput('arch') || env.arch;
