@@ -32,7 +32,7 @@ jobs:
         run: $OPENVINO_INSTALL_DIR/setupvars.sh
         if: matrix.os != 'windows-latest'
       - name: Check installation
-        run: $OPENVINO_INSTALL_DIR/setupvars.bat
+        run: %OPENVINO_INSTALL_DIR%/setupvars.bat
         if: matrix.os == 'windows-latest'
 
   apt:
