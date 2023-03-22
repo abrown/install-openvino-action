@@ -1,2 +1,5 @@
 CHECKSUM
 GPG-PUB-KEY*
+node_modules
+*.tgz
+*.zip

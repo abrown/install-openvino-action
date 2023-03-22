@@ -8,8 +8,18 @@ on:
   workflow_dispatch:
 
 jobs:
+  test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: npm install
+      - name: Run unit tests
+        run: npm test
+
   check:
-    name: Check action
+    name: Check action end-to-end
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

@@ -1,13 +1,29 @@
 name: 'Install OpenVINO'
-description: 'Install OpenVINO binaries from a package repository; this is significantly faster than building from source'
+description: 'Install OpenVINO binaries from a package repository; this is significantly faster than
+building from source'
 
+# See https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#inputs
 inputs:
   version:
     description: 'The release version of OpenVINO to install'
+    required: true
+    default: '2022.3'
+  os:
+    description: 'Auto-detected, only use this to override the OS. One of: linux, macos, windows.'
     required: false
+  release:
+    description: 'Auto-detected, only use to override the release distribution. For linux, a string
+    indicating which distribution to use, e.g., "ubuntu22"; OpenVINO has packages for various
+    distributions.' required: false
+  arch:
+    description: 'Auto-detected, only use to override the CPU architecture. One of: x86_64, arm64.
+    The architecture selection is limited by what packages OpenVINO publishes'
+    required: false
+  apt:
+    description: 'Install from APT packages; this is limited to Debian-based Linux'
+    required: false
+    default: false
 
 runs:
-  using: composite
-  steps:
-    - run: ${{ github.action_path }}/install.sh ${{ inputs.version }}
-      shell: bash
+  using: node16
+  main: main.js
