@@ -42,6 +42,6 @@ jobs:
       - name: Install OpenVINO
         uses: ./
         with:
-          apt: 'true'
+          apt: true
       - name: Check installation
         run: ldconfig -p | grep openvino

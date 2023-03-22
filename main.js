@@ -20,7 +20,7 @@ const path = require('node:path');
  */
 async function run() {
     // Read in the inputs; `core.getInput` reads environment variables like `INPUT_FILETREE`.
-    const version = core.getInput('version') || '2022.3.0';
+    const version = core.getInput('version');
     core.info(`version: ${version}`);
     const env = runner.readGitHubEnvironment();
     const arch = core.getInput('arch') || env.arch;
@@ -38,7 +38,7 @@ async function run() {
     }
     const release = core.getInput('release') || `${linuxRelease.id}${linuxRelease.version}`;
     core.info(`release: ${release}`);
-    const useApt = core.getInput('apt');
+    const useApt = core.getBooleanInput('apt');
     core.info(`apt: ${useApt}`);
 
     // Choose between an APT installation or an extracted archive installation.
