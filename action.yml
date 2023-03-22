@@ -19,7 +19,7 @@ inputs:
     The architecture selection is limited by what packages OpenVINO publishes'
   apt:
     description: 'Install from APT packages; this is limited to Debian-based Linux'
-    default: false
+    default: 'false'
 
 runs:
   using: composite

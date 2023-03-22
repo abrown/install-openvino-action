@@ -42,6 +42,7 @@ jobs:
       - name: Install OpenVINO
         uses: ./
         with:
-          apt: true
+          # Remember to use a string here--actions do not yet support booleans.
+          apt: 'true'
       - name: Check installation
         run: ldconfig -p | grep openvino
