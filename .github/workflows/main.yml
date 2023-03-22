@@ -29,7 +29,7 @@ jobs:
       - name: Install OpenVINO
         uses: ./
       - name: Check installation
-        run: ldconfig -p | grep openvino
+        run: $OPENVINO_INSTALL_DIR/setupvars.sh
 
   apt:
     name: Check installing APT packages
