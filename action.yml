@@ -6,6 +6,7 @@ building from source'
 inputs:
   version:
     description: 'The release version of OpenVINO to install'
+    required: true
     default: '2022.3'
   os:
     description: 'Auto-detected, only use this to override the OS. One of: linux, macos, windows.'
