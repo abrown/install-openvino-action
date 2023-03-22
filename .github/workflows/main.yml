@@ -67,7 +67,7 @@ jobs:
         with:
           apt: true
       - name: List files
-        run: dpkg --listfiles openvino
+        run: dpkg --listfiles openvino-2022.3.0
         shell: bash
       - name: Check installation
         run: ldconfig -p | grep openvino
