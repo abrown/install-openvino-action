@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
+const child_process = require('node:child_process');
 const core = require('@actions/core');
 const download = require('./src/download');
-const runner = require('./src/runner');
 const filetree = require('./src/filetree');
-const child_process = require('node:child_process');
 const fs = require('node:fs');
+const runner = require('./src/runner');
+const path = require('node:path');
 
 /**
  * Main entry point for this GitHub action. This function will parse the inputs (see `action.yml`)
@@ -48,9 +49,11 @@ async function run() {
         const filetreeJson = await filetree.readCached('filetree.json');
         const url = filetree.buildUrl(filetreeJson, version, os, release, arch);
         core.info(`url: ${url}`);
-        let fileName = await download.downloadCached(url);
-        decompress(fileName);
-        // TODO set up OPENVINO_INSTALL_DIR
+        let downloadedFile = await download.downloadCached(url);
+        decompress(downloadedFile);
+        const extractedDirectory = path.resolve(path.parse(downloadedFile).name);
+        core.info(`Setting up environment: OPENVINO_INSTALL_DIR=${extractedDirectory}`);
+        core.exportVariable('OPENVINO_INSTALL_DIR', extractedDirectory);
     }
 }
 
