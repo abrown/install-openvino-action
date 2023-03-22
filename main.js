@@ -70,18 +70,19 @@ async function run() {
 }
 
 function decompress(path) {
-    const extension = path.split('.').pop();
-    if (extension === 'tgz') {
-        const args = ['-xf', path];
-        core.info(`decompressing: tar ${args.join(' ')}`);
-        child_process.execFileSync('tar', args, { stdio: 'inherit' });
-    } else if (extension === 'zip') {
-        const args = [, path];
-        core.info(`decompressing: unzip ${args.join(' ')}`);
-        child_process.execFileSync('unzip', args, { stdio: 'inherit' });
+    const ext = path.split('.').pop();
+    let cmd, args;
+    if (ext === 'tgz') {
+        cmd = 'tar';
+        args = ['-xf', path];
+    } else if (ext === 'zip') {
+        cmd = 'gzip';
+        args = ['-d', path];
     } else {
         throw new Error(`unrecognized extension to decompress: ${path}`)
     }
+    core.info(`decompressing: ${cmd} ${args.join(' ')}`);
+    child_process.execFileSync(cmd, args, { stdio: 'inherit' });
 }
 
 function bash(scriptPath, env) {
