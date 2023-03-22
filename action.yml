@@ -14,7 +14,8 @@ inputs:
   release:
     description: 'Auto-detected, only use to override the release distribution. For linux, a string
     indicating which distribution to use, e.g., "ubuntu22"; OpenVINO has packages for various
-    distributions.' required: false
+    distributions.'
+    required: false
   arch:
     description: 'Auto-detected, only use to override the CPU architecture. One of: x86_64, arm64.
     The architecture selection is limited by what packages OpenVINO publishes'
