@@ -11,5 +11,5 @@ test('read the current GitHub environment', async () => {
 test('read the current /etc/os-release file', async () => {
     const readStream = fs.createReadStream('tests/os-release');
     let release = await env.readLinuxRelease(readStream);
-    return expect(release).toEqual('ubuntu22');
+    return expect(release).toEqual({ codename: 'jammy', id: 'ubuntu', version: '22' });
 });
