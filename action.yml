@@ -26,8 +26,10 @@ runs:
   steps:
   - run: npm install
     shell: bash
+    working-directory: ${{ github.action_path }}
   - run: node main.js
     shell: bash
+    working-directory: ${{ github.action_path }}
     env:
       # Composite actions need to have their inputs forwarded into the environment. See:
       # - documentation (https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#example-specifying-inputs)
