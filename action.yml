@@ -26,5 +26,9 @@ inputs:
     default: false
 
 runs:
-  using: node16
-  main: main.js
+  using: composite
+  steps:
+  - run: npm install
+    shell: bash
+  - run: node main.js
+    shell: bash
