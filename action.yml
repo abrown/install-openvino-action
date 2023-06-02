@@ -7,7 +7,7 @@ inputs:
   version:
     description: 'The release version of OpenVINO to install'
     required: true
-    default: '2022.3.0'
+    default: '2023.0.0'
   os:
     description: 'Auto-detected, only use this to override the OS. One of: linux, macos, windows.'
   release:
@@ -18,7 +18,8 @@ inputs:
     description: 'Auto-detected, only use to override the CPU architecture. One of: x86_64, arm64.
     The architecture selection is limited by what packages OpenVINO publishes'
   apt:
-    description: 'Install from APT packages; this is limited to Debian-based Linux'
+    description: 'Install from APT packages; this is limited to Debian-based Linux and limited
+    versions'
     default: false
 
 runs:
