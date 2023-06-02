@@ -22,13 +22,6 @@ Install OpenVINO as a step in a GitHub workflow.
 
 [APT packages]: https://docs.openvino.ai/latest/openvino_docs_install_guides_installing_openvino_apt.html
 
-### Publish
+### Contributing
 
-This action is not published to the GitHub marketplace due to several limitations. Publishing a new
-version is done by:
-
-```console
-$ git checkout main
-$ git tag v<new release>
-$ git push --tags
-```
+See the developer documentation in [`CONTRIBUTING.md`](./CONTRIBUTING.md).
