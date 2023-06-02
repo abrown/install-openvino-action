@@ -5,8 +5,10 @@ set -e
 # Install OpenVINO using APT packages. This script expects to be passed certain variables from
 # `main.js` (it is easier to calculate them there), but for local use these could be set manually.
 
-version=${version:-2023.0.0}
-version_year=${version_year:-2023}
+# TODO: the latest release (v2023.0.0) is not yet available as an APT package; update this when it
+# is.
+version=${version:-2022.3.0}
+version_year=${version_year:-2022}
 os_codename=${os_codename:-focal}
 
 # Determine the directory of this script. E.g.:

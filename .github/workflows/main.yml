@@ -47,7 +47,7 @@ jobs:
       - name: Install OpenVINO
         uses: ./
         with:
-          version: 2023.0
+          version: 2022.2
           release: rhel8
       - name: List files
         run: find $OPENVINO_INSTALL_DIR
@@ -66,10 +66,13 @@ jobs:
         uses: ./
         with:
           apt: true
+          # TODO: the latest release (v2023.0.0) is not yet available as an APT package; update this
+          # when it is.
+          version: 2022.3.0
       - name: List files
         run: |
-          apt-cache depends openvino-2023.0.0 --installed
-          dpkg --listfiles libopenvino-2023.0.0
+          apt-cache depends openvino-2022.3.0 --installed
+          dpkg --listfiles libopenvino-2022.3.0
         shell: bash
       - name: Check installation
         run: ldconfig -p | grep openvino
