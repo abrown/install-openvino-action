@@ -38,16 +38,22 @@ jobs:
         run: ${{ env.OPENVINO_INSTALL_DIR }}\setupvars.bat
         if: matrix.os == 'windows-latest'
 
-
   old:
     name: Spot-check old archive
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Pick an old version
+        run: |
+          OLD_VERSIONS=("2021.4" "2022.1" "2022.2" "2022.3")
+          RANDOM=$(date +%s)
+          PICKED_VERSION=${OLD_VERSIONS[$RANDOM % ${#OLD_VERSIONS[@]}]}
+          echo "PICKED_VERSION=$PICKED_VERSION"
+          echo "PICKED_VERSION=$PICKED_VERSION" >> $GITHUB_ENV
       - name: Install OpenVINO
         uses: ./
         with:
-          version: 2022.2
+          version: ${{ env.PICKED_VERSION }}
           release: rhel8
       - name: List files
         run: find $OPENVINO_INSTALL_DIR
