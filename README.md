@@ -1,7 +1,8 @@
 install-openvino-action
 =======================
 
-Install OpenVINO as a step in a GitHub workflow.
+Install OpenVINO as a step in a GitHub workflow; sets `OPENVINO_INSTALL_DIR` in the GitHub
+environment.
 
 ### Use
 
