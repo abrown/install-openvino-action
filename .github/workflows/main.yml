@@ -36,6 +36,7 @@ jobs:
         working-directory: integration-tests
         env:
           RUST_LOG: debug
+          RUST_BACKTRACE: 1
 
   old:
     name: Spot-check old archive
@@ -54,6 +55,7 @@ jobs:
         working-directory: integration-tests
         env:
           RUST_LOG: debug
+          RUST_BACKTRACE: 1
 
   apt:
     name: Check installing APT packages
@@ -82,3 +84,4 @@ jobs:
         working-directory: integration-tests
         env:
           RUST_LOG: debug
+          RUST_BACKTRACE: 1
