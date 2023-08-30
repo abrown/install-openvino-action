@@ -3,3 +3,4 @@ GPG-PUB-KEY*
 node_modules
 *.tgz
 *.zip
+filetree.json
