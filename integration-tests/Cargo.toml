@@ -1,0 +1,9 @@
+[package]
+name = "integration-tests"
+description = "Check that the `openvino-rs` crate can use the environment created by `install-openvino-action`"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+env_logger = "0.10"
+openvino = { version = "0", features = ["runtime-linking"] }

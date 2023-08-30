@@ -32,12 +32,10 @@ jobs:
         run: find $OPENVINO_INSTALL_DIR
         shell: bash
       - name: Check installation
-        run: $OPENVINO_INSTALL_DIR/setupvars.sh
-        if: matrix.os != 'windows-latest'
-      - name: Check installation
-        run: ${{ env.OPENVINO_INSTALL_DIR }}\setupvars.bat
-        if: matrix.os == 'windows-latest'
-
+        run: cargo run
+        working-directory: integration-tests
+        env:
+          RUST_LOG: debug
 
   old:
     name: Spot-check old archive
@@ -52,7 +50,10 @@ jobs:
       - name: List files
         run: find $OPENVINO_INSTALL_DIR
       - name: Check installation
-        run: $OPENVINO_INSTALL_DIR/setupvars.sh
+        run: cargo run
+        working-directory: integration-tests
+        env:
+          RUST_LOG: debug
 
   apt:
     name: Check installing APT packages
@@ -74,5 +75,10 @@ jobs:
           apt-cache depends openvino-2022.3.0 --installed
           dpkg --listfiles libopenvino-2022.3.0
         shell: bash
-      - name: Check installation
+      - name: Check installed libraries
         run: ldconfig -p | grep openvino
+      - name: Check installation
+        run: cargo run
+        working-directory: integration-tests
+        env:
+          RUST_LOG: debug
