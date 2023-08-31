@@ -33,6 +33,9 @@ jobs:
       - name: List files
         run: find $OPENVINO_INSTALL_DIR
         shell: bash
+      - name: List environment
+        run: env
+        shell: bash
       - name: Check installation
         run: cargo run
         working-directory: integration-tests
