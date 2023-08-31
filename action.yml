@@ -45,7 +45,7 @@ runs:
   - run: |
       sudo apt-get install -y libpugixml1v5
     shell: bash
-    if: ${{ !inputs.apt && startsWith(runner.os, 'ubuntu') }}
+    if: ${{ !inputs.apt && runner.os == 'Linux' }}
   - run: |
       source $OPENVINO_INSTALL_DIR/setupvars.sh
       env >> $GITHUB_ENV
