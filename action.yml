@@ -40,3 +40,13 @@ runs:
       INPUT_RELEASE: ${{ inputs.release }}
       INPUT_ARCH: ${{ inputs.arch }}
       INPUT_APT: ${{ inputs.apt }}
+  - run: |
+      source $OPENVINO_INSTALL_DIR/setupvars.sh
+      env >> $GITHUB_ENV
+    shell: bash
+    if: ${{ !startsWith(runner.os, 'windows') }}
+  - run: |
+      source ${{ env.OPENVINO_INSTALL_DIR }}\setupvars.bat
+      env >> $GITHUB_ENV
+    shell: bash
+    if: startsWith(runner.os, 'windows')
