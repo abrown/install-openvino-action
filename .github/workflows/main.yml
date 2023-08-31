@@ -52,7 +52,7 @@ jobs:
       - name: Install OpenVINO
         uses: ./
         with:
-          version: 2022.2
+          version: 2022.3
           release: rhel8
       - name: List files
         run: find $OPENVINO_INSTALL_DIR
