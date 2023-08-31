@@ -6,6 +6,4 @@ edition = "2021"
 
 [dependencies]
 env_logger = "0.10"
-openvino = { git = "https://github.com/abrown/openvino-rs", branch = "ci", features = [
-    "runtime-linking",
-] }
+openvino = { version = "0", features = ["runtime-linking"] }
