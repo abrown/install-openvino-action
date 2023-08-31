@@ -50,13 +50,13 @@ runs:
       source $OPENVINO_INSTALL_DIR/setupvars.sh
       env >> $GITHUB_ENV
     shell: bash
-    if: ${{ !inputs.apt && !startsWith(runner.os, 'windows') }}
+    if: ${{ inputs.apt == 'false' && !startsWith(runner.os, 'windows') }}
   - run: |
       source ${{ env.OPENVINO_INSTALL_DIR }}\setupvars.bat
       env >> $GITHUB_ENV
     shell: bash
     if: ${{ !inputs.apt && startsWith(runner.os, 'windows') }}
   - run: |
-      find $OPENVINO_INSTALL_DIR -name 'libopenvino.so*' | xargs ldd
+      find $OPENVINO_INSTALL_DIR -name 'libopenvino*.so*' | xargs ldd
     shell: bash
     if: ${{ runner.os == 'Linux' }}
