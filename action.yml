@@ -44,9 +44,9 @@ runs:
       source $OPENVINO_INSTALL_DIR/setupvars.sh
       env >> $GITHUB_ENV
     shell: bash
-    if: ${{ !startsWith(runner.os, 'windows') }}
+    if: ${{ !inputs.apt && !startsWith(runner.os, 'windows') }}
   - run: |
       source ${{ env.OPENVINO_INSTALL_DIR }}\setupvars.bat
       env >> $GITHUB_ENV
     shell: bash
-    if: startsWith(runner.os, 'windows')
+    if: ${{ !inputs.apt && startsWith(runner.os, 'windows') }}
