@@ -53,11 +53,22 @@ runs:
   # as `LD_LIBRARY_PATH` for Linux.
   - run: |
       source $OPENVINO_INSTALL_DIR/setupvars.sh
-      env >> $GITHUB_ENV
+      env >> "$GITHUB_ENV"
     shell: bash
     if: ${{ inputs.apt == 'false' && inputs.env == 'true' && !startsWith(runner.os, 'windows') }}
   - run: |
-      ${{ env.OPENVINO_INSTALL_DIR }}\setupvars.bat
-      set >> $GITHUB_ENV
+      call ${{ env.OPENVINO_INSTALL_DIR }}\setupvars.bat
+      echo InferenceEngine_DIR=%InferenceEngine_DIR% >> %GITHUB_ENV%
+      echo INTEL_OPENVINO_DIR=%INTEL_OPENVINO_DIR% >> %GITHUB_ENV%
+      echo OpenVINO_DIR=%OpenVINO_DIR% >> %GITHUB_ENV%
+      echo OPENVINO_LIB_PATHS=%OPENVINO_LIB_PATHS% >> %GITHUB_ENV%
+      echo TBB_DIR=%TBB_DIR% >> %GITHUB_ENV%
+      echo %OPENVINO_LIB_PATHS% >> %GITHUB_PATH%
     shell: cmd
     if: ${{ inputs.apt == 'false' && inputs.env == 'true' && startsWith(runner.os, 'windows') }}
+  - run: |
+      set
+    shell: cmd
+    if: ${{ inputs.apt == 'false' && inputs.env == 'true' && startsWith(runner.os, 'windows') }}
+
+#       # echo PATH=%PATH% >> %GITHUB_ENV%

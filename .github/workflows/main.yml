@@ -26,11 +26,29 @@ jobs:
         os: [ubuntu-20.04, ubuntu-22.04, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v2
+      - name: Capture environment (TODO remove)
+        run: env > before.env
+        shell: bash
+        if: ${{ !startsWith(runner.os, 'windows') }}
+      - name: Capture environment (TODO remove)
+        run: set > before.env
+        shell: cmd
+        if: ${{ startsWith(runner.os, 'windows') }}
       - name: Install OpenVINO
         uses: ./
       - name: List files
         run: find $OPENVINO_INSTALL_DIR
         shell: bash
+      - name: Capture environment again (TODO remove)
+        run: env > after.env
+        shell: bash
+        if: ${{ !startsWith(runner.os, 'windows') }}
+      - name: Capture environment again (TODO remove)
+        run: set > after.env
+        shell: cmd
+        if: ${{ startsWith(runner.os, 'windows') }}
+      - name: Compare environment (TODO remove)
+        run: git diff --no-index before.env after.env || echo "differences found"
       - name: Check installation
         run: integration-tests/check-installation.sh
         shell: bash
