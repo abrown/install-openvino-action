@@ -32,12 +32,9 @@ jobs:
         run: find $OPENVINO_INSTALL_DIR
         shell: bash
       - name: Check installation
-        run: $OPENVINO_INSTALL_DIR/setupvars.sh
-        if: matrix.os != 'windows-latest'
-      - name: Check installation
-        run: ${{ env.OPENVINO_INSTALL_DIR }}\setupvars.bat
-        if: matrix.os == 'windows-latest'
-
+        run: integration-tests/check-installation.sh
+        shell: bash
+        if: ${{ startsWith(runner.os, 'linux') }}
 
   old:
     name: Spot-check old archive
@@ -49,10 +46,14 @@ jobs:
         with:
           version: 2022.2
           release: rhel8
+          # We do not use the setup script to prepare the environment due to a conflicting Python
+          # version with the GitHub runner.
+          env: false
       - name: List files
         run: find $OPENVINO_INSTALL_DIR
       - name: Check installation
-        run: $OPENVINO_INSTALL_DIR/setupvars.sh
+        run: integration-tests/check-installation.sh
+        shell: bash
 
   apt:
     name: Check installing APT packages
