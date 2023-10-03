@@ -40,3 +40,20 @@ runs:
       INPUT_RELEASE: ${{ inputs.release }}
       INPUT_ARCH: ${{ inputs.arch }}
       INPUT_APT: ${{ inputs.apt }}
+  # Linux will need some additional libraries installed.
+  - run: |
+      sudo apt-get install -y libpugixml1v5 libtbb2
+    shell: bash
+    if: ${{ runner.os == 'Linux' }}
+  # Use the OpenVINO scripts to set up the environment; this sets up other necessary variables such
+  # as `LD_LIBRARY_PATH` for Linux.
+  - run: |
+      source $OPENVINO_INSTALL_DIR/setupvars.sh
+      env >> $GITHUB_ENV
+    shell: bash
+    if: ${{ inputs.apt == 'false' && !startsWith(runner.os, 'windows') }}
+  - run: |
+      ${{ env.OPENVINO_INSTALL_DIR }}\setupvars.bat
+      set >> $GITHUB_ENV
+    shell: cmd
+    if: ${{ inputs.apt == 'false' && startsWith(runner.os, 'windows') }}
