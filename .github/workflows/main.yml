@@ -46,6 +46,7 @@ jobs:
         with:
           version: 2022.2
           release: rhel8
+          env: false
       - name: List files
         run: find $OPENVINO_INSTALL_DIR
       - name: Check installation

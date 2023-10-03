@@ -21,6 +21,10 @@ inputs:
     description: 'Install from APT packages; this is limited to Debian-based Linux and limited
     versions'
     default: false
+  env:
+    description: 'Run the OpenVINO setup script to configure the environment (e.g., for library
+    loading).'
+    default: true
 
 runs:
   using: composite
@@ -51,9 +55,9 @@ runs:
       source $OPENVINO_INSTALL_DIR/setupvars.sh
       env >> $GITHUB_ENV
     shell: bash
-    if: ${{ inputs.apt == 'false' && !startsWith(runner.os, 'windows') }}
+    if: ${{ inputs.apt == 'false' && inputs.env == 'true' && !startsWith(runner.os, 'windows') }}
   - run: |
       ${{ env.OPENVINO_INSTALL_DIR }}\setupvars.bat
       set >> $GITHUB_ENV
     shell: cmd
-    if: ${{ inputs.apt == 'false' && startsWith(runner.os, 'windows') }}
+    if: ${{ inputs.apt == 'false' && inputs.env == 'true' && startsWith(runner.os, 'windows') }}
