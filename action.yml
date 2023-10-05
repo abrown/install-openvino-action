@@ -62,11 +62,26 @@ runs:
       echo PYTHONPATH=$PYTHONPATH >> $GITHUB_ENV
       echo TBB_DIR=$TBB_DIR >> $GITHUB_ENV
     shell: bash
-    if: ${{ inputs.apt == 'false' && inputs.env == 'true' && !startsWith(runner.os, 'windows') }}
-  # For Windows, we must (1) use `call` to avoid early batch script exits, (2) use the special
-  # `cmd.exe` syntax, and (3) append to the system path via `%GITHUB_PATH%`. This last comes from
-  # inspection of the `setupvars.bat` script and could be fragile, but it seems better than
-  # overriding the entire `%PATH%` variable.
+    if: ${{ inputs.apt == 'false' && inputs.env == 'true' && startsWith(runner.os, 'linux') }}
+  # For MacOs, we additionally need to set up the DYLD_LIBRARY_PATH; otherwise it should be
+  # identical to Linux.
+  - run: |
+      source $OPENVINO_INSTALL_DIR/setupvars.sh
+      echo DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH >> $GITHUB_ENV
+      echo InferenceEngine_DIR=$InferenceEngine_DIR >> $GITHUB_ENV
+      echo INTEL_OPENVINO_DIR=$INTEL_OPENVINO_DIR >> $GITHUB_ENV
+      echo LD_LIBRARY_PATH=$LD_LIBRARY_PATH >> $GITHUB_ENV
+      echo ngraph_DIR=$ngraph_DIR >> $GITHUB_ENV
+      echo OpenVINO_DIR=$OpenVINO_DIR >> $GITHUB_ENV
+      echo PKG_CONFIG_PATH=$PKG_CONFIG_PATH >> $GITHUB_ENV
+      echo PYTHONPATH=$PYTHONPATH >> $GITHUB_ENV
+      echo TBB_DIR=$TBB_DIR >> $GITHUB_ENV
+    shell: bash
+    if: ${{ inputs.apt == 'false' && inputs.env == 'true' && startsWith(runner.os, 'macos') }}
+  # For Windows, we must (1) use `call` to avoid early batch script exits, (2)
+  # use the special `cmd.exe` syntax, and (3) append to the system path via `%GITHUB_PATH%`. This
+  # last comes from inspection of the `setupvars.bat` script and could be fragile, but it seems
+  # better than overriding the entire `%PATH%` variable.
   - run: |
       call ${{ env.OPENVINO_INSTALL_DIR }}\setupvars.bat
       echo InferenceEngine_DIR=%InferenceEngine_DIR% >> %GITHUB_ENV%
