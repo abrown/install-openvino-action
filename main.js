@@ -30,11 +30,6 @@ async function run() {
     let linuxRelease, defaultRelease;
     if (os === 'linux') {
         linuxRelease = await runner.readLinuxRelease(fs.createReadStream('/etc/os-release'));
-        if (linuxRelease.codename === 'jammy') {
-            core.warning('downgrading jammy packages to focal; OpenVINO has no jammy packages but focal should work');
-            linuxRelease.codename = 'focal';
-            linuxRelease.version = '20';
-        }
         defaultRelease = `${linuxRelease.id}${linuxRelease.version}`;
     }
     if (os === 'macos') {
@@ -52,7 +47,7 @@ async function run() {
         if (os !== 'linux') {
             core.warning('retrieving OpenVINO with APT is unlikely to work on OSes other than Linux.');
         }
-        const env = { version, version_year: version.split('.')[0], os_codename: linuxRelease.codename };
+        const env = { version, version_year: version.split('.')[0], os: defaultRelease };
         bash('src/apt.sh', env);
         // TODO cache these APT packages: https://cloudaffaire.com/faq/caching-apt-packages-in-github-actions-workflow/
     } else {

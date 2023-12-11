@@ -7,7 +7,7 @@ set -e
 
 version=${version:-2023.2.0}
 version_year=${version_year:-2023}
-os_codename=${os_codename:-focal}
+os=${os:-ubuntu22}
 
 # Determine the directory of this script. E.g.:
 #  action_dir=/some/directory
@@ -19,13 +19,7 @@ echo "3e1b48a4dbbbaea2b0f442b9ca15821e $action_dir/GPG-PUB-KEY-INTEL-SW-PRODUCTS
 md5sum --check $action_dir/CHECKSUM
 sudo apt-key add $action_dir/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
 
-# Warn about the OS codename.
-if [ "$os_codename" == "jammy" ]; then
-    echo "ERROR: OpenVINO has released no 'jammy' (Ubuntu 22.04) packages; use the 'focal' (Ubuntu 20.04) packages instead"
-    exit 1
-fi
-
 # Add the OpenVINO repository and install the OpenVINO DEB package.
-echo "deb https://apt.repos.intel.com/openvino/$version_year $os_codename main" | sudo tee /etc/apt/sources.list.d/intel-openvino-$version_year.list
+echo "deb https://apt.repos.intel.com/openvino/$version_year $os main" | sudo tee /etc/apt/sources.list.d/intel-openvino-$version_year.list
 sudo apt update
 sudo apt install -y openvino-$version
