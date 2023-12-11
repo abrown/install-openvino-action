@@ -39,6 +39,7 @@ async function run() {
     if (release === 'ubuntu22' && version.startsWith('2022')) {
         core.warning('downgrading jammy packages to focal; OpenVINO has no jammy packages for this version but focal should work');
         release = 'ubuntu20'
+        // See how this is recorded below in `_OPENVINO_INSTALL_RELEASE`
     }
     core.info(`release: ${release}`);
     const useApt = core.getBooleanInput('apt');
@@ -65,6 +66,9 @@ async function run() {
         const extractedDirectory = path.resolve(path.parse(downloadedFile).name);
         core.info(`Setting up environment: OPENVINO_INSTALL_DIR=${extractedDirectory}`);
         core.exportVariable('OPENVINO_INSTALL_DIR', extractedDirectory);
+        // As long as we still downgrade jammy packages to focal, we need to inform the GitHub
+        // action that we did so.
+        core.exportVariable('_OPENVINO_INSTALL_RELEASE', release);
     }
 }
 
