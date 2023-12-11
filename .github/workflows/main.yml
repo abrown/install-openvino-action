@@ -49,6 +49,10 @@ jobs:
           # We do not use the setup script to prepare the environment due to a conflicting Python
           # version with the GitHub runner.
           env: false
+      # While the action attempts to install needed prerequisites (i.e., TBB), when we start using
+      # non-GitHub-runner versions we may need to tweak this a bit:
+      - name: Install extra version of TBB
+        run: sudo apt-get install -y libtbb2
       - name: List files
         run: find $OPENVINO_INSTALL_DIR
       - name: Check installation
