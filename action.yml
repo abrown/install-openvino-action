@@ -44,9 +44,12 @@ runs:
       INPUT_RELEASE: ${{ inputs.release }}
       INPUT_ARCH: ${{ inputs.arch }}
       INPUT_APT: ${{ inputs.apt }}
-  # Linux will need some additional libraries installed.
+  # Linux will need some additional libraries installed; these can be slightly different based on
+  # the Ubuntu release.
   - run: |
-      sudo apt-get install -y libpugixml1v5 libtbb2
+      OS=$(source /etc/os-release; echo "${ID}${VERSION_ID}")
+      if [[ "$OS" == "ubuntu20.04" ]]; then TBB=libtbb2; else TBB=libtbb12; fi
+      sudo apt-get install -y libpugixml1v5 $TBB
     shell: bash
     if: ${{ runner.os == 'Linux' }}
   # Use the OpenVINO scripts to set up the environment for Linux and MacOS. Without some of these (e.g.,

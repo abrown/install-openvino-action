@@ -49,6 +49,10 @@ jobs:
           # We do not use the setup script to prepare the environment due to a conflicting Python
           # version with the GitHub runner.
           env: false
+      # While the action attempts to install needed prerequisites (i.e., TBB), when we start using
+      # non-GitHub-runner versions we may need to tweak this a bit:
+      - name: Install extra version of TBB
+        run: sudo apt-get install -y libtbb2
       - name: List files
         run: find $OPENVINO_INSTALL_DIR
       - name: Check installation
@@ -67,13 +71,10 @@ jobs:
         uses: ./
         with:
           apt: true
-          # TODO: the latest release (v2023.0.0) is not yet available as an APT package; update this
-          # when it is.
-          version: 2022.3.0
       - name: List files
         run: |
-          apt-cache depends openvino-2022.3.0 --installed
-          dpkg --listfiles libopenvino-2022.3.0
+          apt-cache depends openvino-2023.2.0 --installed
+          dpkg --listfiles libopenvino-2023.2.0
         shell: bash
       - name: Check installation
         run: ldconfig -p | grep openvino
