@@ -5,7 +5,7 @@ This GitHub action can be run locally for testing purposes:
 
 ```
 npm install
-INPUT_VERSION=2023.0.0 INPUT_RELEASE=ubuntu22 INPUT_APT=false node main.js
+INPUT_VERSION=2023.2.0 INPUT_RELEASE=ubuntu22 INPUT_APT=false node main.js
 ```
 
 Unit tests for some of the utilities are available with `npm test`, but the real end-to-end checks
