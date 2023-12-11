@@ -37,15 +37,25 @@ jobs:
         if: ${{ startsWith(runner.os, 'linux') }}
 
   old:
-    name: Spot-check old archive
+    name: Spot-check old archives
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          # Check that the RHEL archives also work (more out of curiosity than anything else).
+          - version: 2022.2
+            release: rhel8
+          # Check that older versions, not present for Ubuntu 22.04, downgrade to the Ubuntu 20.04
+          # versions.
+          - version: 2022.3
+            release: ubuntu22
     steps:
       - uses: actions/checkout@v2
       - name: Install OpenVINO
         uses: ./
         with:
-          version: 2022.2
-          release: rhel8
+          version: ${{ matrix.version }}
+          release: ${{ matrix.release }}
           # We do not use the setup script to prepare the environment due to a conflicting Python
           # version with the GitHub runner.
           env: false
