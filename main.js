@@ -33,7 +33,11 @@ async function run() {
         defaultRelease = `${linuxRelease.id}${linuxRelease.version}`;
     }
     if (os === 'macos') {
-        defaultRelease = '10_15';
+        if (version >= '2024.1.0') {
+            defaultRelease = '12_6';
+        } else {
+            defaultRelease = '10_15';
+        }
     }
     let release = core.getInput('release') || defaultRelease;
     if (release === 'ubuntu22' && version.startsWith('2022')) {
