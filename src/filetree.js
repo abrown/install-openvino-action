@@ -54,9 +54,11 @@ function buildUrl(filetree, version, os, release, arch = 'x86_64') {
         .children.find(e => e.name === os)
         .children;
 
+    const notFileStart = (os === 'windows') ? 'pdb_' : null;
     const fileMatch = `${release}_${version}`;
     const fileEnd = (os === 'windows') ? `${arch}.zip` : `${arch}.tgz`;
-    const matched = packages.find(e => e.type === 'file' && e.name.includes(fileMatch) && e.name.endsWith(fileEnd));
+    const matched = packages.find(e => e.type === 'file' && !e.name.startsWith(notFileStart)
+        && e.name.includes(fileMatch) && e.name.endsWith(fileEnd));
     if (!matched) {
         core.info(`packages: ${JSON.stringify(packages, null, 2)}`);
         core.setFailed(`unable to match any package containing '${fileMatch}' and ending with '${fileEnd}'`);
