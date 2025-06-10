@@ -12,7 +12,7 @@ inputs:
     description: 'Auto-detected, only use this to override the OS. One of: linux, macos, windows.'
   release:
     description: 'Auto-detected, only use to override the release distribution. For linux, a string
-    indicating which distribution to use, e.g., "ubuntu22"; OpenVINO has packages for various
+    indicating which distribution to use, e.g., "ubuntu24"; OpenVINO has packages for various
     distributions.'
   arch:
     description: 'Auto-detected, only use to override the CPU architecture. One of: x86_64, arm64.

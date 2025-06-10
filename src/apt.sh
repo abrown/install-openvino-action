@@ -7,7 +7,7 @@ set -e
 
 version=${version:-2025.1.0}
 version_year=${version_year:-2024}
-release=${release:-ubuntu22}
+release=${release:-ubuntu24}
 
 # Determine the directory of this script. E.g.:
 #  action_dir=/some/directory

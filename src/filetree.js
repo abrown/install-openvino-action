@@ -30,7 +30,7 @@ async function readCached(path) {
  * @param {string} version - the version of OpenVINO to install; e.g., `2022.3`
  * @param {string} os - the operating system: `windows`, `linux`, `macos`
  * @param {string} [release] - for the Linux `os`, indicate which distribution to retrieve; e.g.
- * `ubuntu20` for Linux or `10_15` for MacOS
+ * `ubuntu24` for Linux or `10_15` for MacOS
  * @param {string} [arch=x86_64] - the CPU architecture; e.g., `x86_64`
  * @returns {string} a download URL for the OpenVINO package
  */
