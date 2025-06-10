@@ -18,6 +18,11 @@ test('builds an ubuntu URL', () => {
         .toBe('https://storage.openvinotoolkit.org/repositories/openvino/packages/2022.3/linux/l_openvino_toolkit_ubuntu20_2022.3.0.9052.9752fafe8eb_x86_64.tgz');
 });
 
+test('builds a newer ubuntu URL', () => {
+    expect(filetree.buildUrl(json, '2025.1', 'linux', 'ubuntu24'))
+        .toBe('https://storage.openvinotoolkit.org/repositories/openvino/packages/2025.1/linux/openvino_toolkit_ubuntu24_2025.1.0.18503.6fec06580ab_x86_64.tgz');
+});
+
 test('builds a Windows URL', () => {
     expect(filetree.buildUrl(json, '2022.2', 'windows'))
         .toBe('https://storage.openvinotoolkit.org/repositories/openvino/packages/2022.2/windows/w_openvino_toolkit_windows_2022.2.0.7713.af16ea1d79a_x86_64.zip');
