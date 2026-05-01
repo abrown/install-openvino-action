@@ -6,7 +6,6 @@ set -e
 # `main.js` (it is easier to calculate them there), but for local use these could be set manually.
 
 version=${version:-2025.1.0}
-version_year=${version_year:-2024}
 release=${release:-ubuntu24}
 
 # Determine the directory of this script. E.g.:
@@ -20,6 +19,6 @@ md5sum --check $action_dir/CHECKSUM
 sudo apt-key add $action_dir/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
 
 # Add the OpenVINO repository and install the OpenVINO DEB package.
-echo "deb https://apt.repos.intel.com/openvino/$version_year $release main" | sudo tee /etc/apt/sources.list.d/intel-openvino-$version_year.list
+echo "deb https://apt.repos.intel.com/openvino $release main" | sudo tee /etc/apt/sources.list.d/intel-openvino.list
 sudo apt update
 sudo apt install -y openvino-$version
