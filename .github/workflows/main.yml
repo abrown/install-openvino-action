@@ -23,7 +23,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04, macos-latest, windows-latest]
+        os: [ubuntu-24.04, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v2
       - name: Install OpenVINO
@@ -41,7 +41,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-24.04]
     steps:
       - uses: actions/checkout@v2
       - name: Install OpenVINO
@@ -50,8 +50,8 @@ jobs:
           apt: true
       - name: List files
         run: |
-          apt-cache depends openvino-2025.1.0 --installed
-          dpkg --listfiles libopenvino-2025.1.0
+          apt-cache depends openvino-2026.1.0 --installed
+          dpkg --listfiles libopenvino-2026.1.0
         shell: bash
       - name: Check installation
         run: ldconfig -p | grep openvino
