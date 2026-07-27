@@ -48,8 +48,6 @@ jobs:
         uses: ./
         with:
           apt: true
-          # The Intel APT repository only publishes the `.0` patch release, e.g., `2026.1.0`.
-          version: 2026.1.0
       - name: List files
         run: |
           apt-cache depends openvino-2026.1.0 --installed
