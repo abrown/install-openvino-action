@@ -19,8 +19,8 @@ test('builds an ubuntu URL', () => {
 });
 
 test('builds a newer ubuntu URL', () => {
-    expect(filetree.buildUrl(json, '2025.1', 'linux', 'ubuntu24'))
-        .toBe('https://storage.openvinotoolkit.org/repositories/openvino/packages/2025.1/linux/openvino_toolkit_ubuntu24_2025.1.0.18503.6fec06580ab_x86_64.tgz');
+    expect(filetree.buildUrl(json, '2026.1', 'linux', 'ubuntu24'))
+        .toBe('https://storage.openvinotoolkit.org/repositories/openvino/packages/2026.1/linux/openvino_toolkit_ubuntu24_2026.1.0.21367.63e31528c62_x86_64.tgz');
 });
 
 test('builds a Windows URL', () => {
@@ -29,8 +29,8 @@ test('builds a Windows URL', () => {
 });
 
 test('builds a newer Windows URL', () => {
-    expect(filetree.buildUrl(json, '2025.1', 'windows'))
-        .toBe('https://storage.openvinotoolkit.org/repositories/openvino/packages/2025.1/windows/openvino_toolkit_windows_2025.1.0.18503.6fec06580ab_x86_64.zip');
+    expect(filetree.buildUrl(json, '2026.1', 'windows'))
+        .toBe('https://storage.openvinotoolkit.org/repositories/openvino/packages/2026.1/windows/openvino_toolkit_windows_2026.1.0.21367.63e31528c62_x86_64.zip');
 });
 
 test('builds a MacOS URL', () => {
