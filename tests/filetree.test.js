@@ -34,8 +34,8 @@ test('builds a newer Windows URL', () => {
 });
 
 test('builds a MacOS URL', () => {
-    expect(filetree.buildUrl(json, '2022.3', 'macos', '10_15'))
-        .toBe('https://storage.openvinotoolkit.org/repositories/openvino/packages/2022.3/macos/m_openvino_toolkit_macos_10_15_2022.3.0.9052.9752fafe8eb_x86_64.tgz');
+    expect(filetree.buildUrl(json, '2026.1', 'macos', '12_6', 'arm64'))
+        .toBe('https://storage.openvinotoolkit.org/repositories/openvino/packages/2026.1/macos/openvino_toolkit_macos_12_6_2026.1.0.21367.63e31528c62_arm64.tgz');
 });
 
 test('fails to build older URLs', () => {

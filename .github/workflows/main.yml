@@ -48,10 +48,12 @@ jobs:
         uses: ./
         with:
           apt: true
+          # The Intel APT repository only publishes the `.0` patch release, e.g., `2026.1.0`.
+          version: 2026.1.0
       - name: List files
         run: |
-          apt-cache depends openvino-2026.1.2 --installed
-          dpkg --listfiles libopenvino-2026.1.2
+          apt-cache depends openvino-2026.1.0 --installed
+          dpkg --listfiles libopenvino-2026.1.0
         shell: bash
       - name: Check installation
         run: ldconfig -p | grep openvino
